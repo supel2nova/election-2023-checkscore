@@ -136,7 +136,7 @@ const App = (): JSX.Element => {
         <p>Bad Vote: {badVote}</p>
         <p>Total Vote: {goodVote + badVote}</p>
       </div>
-      <div className="flex flex-col text-center mb-4 h-screen w-1/2 ">
+      <div className="flex flex-col text-center mb-4 h-screen w-fit ">
         <h1 className="mt-4 top-0 text-base sticky bg-fuchsia-500 py-3">ส.ส. แบบแบ่งเขต</h1>
         <div className="overflow-y-auto">
           <Table
