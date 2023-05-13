@@ -129,17 +129,16 @@ const App = (): JSX.Element => {
   ];
 
   return (
-    <div className="h-screen w-screen pt-10 overflow-hidden">
-      <div className="flex gap-4 justify-center top-0 sticky">
+    <div className="h-screen w-screen py-10 overflow-hidden">
+      <div className="flex gap-4 justify-center top-0 sticky mb-4">
         <p>Good Vote: {goodVote}</p>
         <p>Bad Vote: {badVote}</p>
         <p>Total Vote: {goodVote + badVote}</p>
       </div>
-      <div className="flex flex-col text-center mb-4 h-screen w-screen md:px-8 ">
-        <h1 className="mt-4 top-0 text-base sticky bg-fuchsia-500 py-3">ส.ส. แบบแบ่งเขต</h1>
+      <div className="flex flex-col text-center h-full w-screen md:px-8 ">
+        <h1 className="top-0 text-base sticky bg-fuchsia-500 py-3">ส.ส. แบบแบ่งเขต</h1>
         <div className="overflow-y-auto">
           <Table
-            style={{ scrollbarWidth: "none" }}
             pagination={false}
             columns={columns}
             dataSource={list}
