@@ -1,20 +1,18 @@
 import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 import { partyList } from "./assets/partylist";
-
-interface ListItemProps {
-  name: string;
-  score: number;
-}
+import { ListItem } from "./assets/partylist";
+import Swal from "sweetalert2";
+import { Table, Button } from "antd";
+import type { ColumnsType } from "antd/es/table";
 
 const App = (): JSX.Element => {
-  const [list, setList] = useState<Array<ListItemProps>>(() => {
-    const savedList = Cookies.get("partyList");
+  const [list, setList] = useState<Array<ListItem>>(() => {
+    const savedList = localStorage.getItem("partyList");
     return savedList ? JSON.parse(savedList) : partyList.list;
   });
 
   useEffect(() => {
-    Cookies.set("partyList", JSON.stringify(list));
+    localStorage.setItem("partyList", JSON.stringify(list));
   }, [list]);
 
   const handleIncrement = (name: string, score: number) => {
@@ -40,7 +38,20 @@ const App = (): JSX.Element => {
       }
       return item;
     });
-    setList(updatedList);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be remove Vote!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setList(updatedList);
+        Swal.fire("Deleted!", "Your Vote has been deleted.", "success");
+      }
+    });
   };
 
   const goodVote = list.reduce((accumulator, item) => {
@@ -57,24 +68,60 @@ const App = (): JSX.Element => {
       return accumulator;
     }
   }, 0);
-  
-  
+
+  const columns: ColumnsType<ListItem> = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "พรรค",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "vote",
+      dataIndex: "score",
+      key: "score",
+    },
+    {
+      title: "",
+      dataIndex: " ",
+      key: "score",
+      render: (text, item) => (
+        <div>
+          <span>{text}</span>
+          <Button
+            type="primary"
+            style={{ background: "#1677ff", marginRight: "1rem" }}
+            onClick={() => handleIncrement(item.name, item.score)}
+          >
+            +
+          </Button>
+          <Button
+            danger
+            onClick={() => handleDecrement(item.name, item.score)}
+          >
+            -
+          </Button>
+        </div>
+      ),
+    },
+  ];
 
   return (
-    <div className="flex justify-center items-center h-screen w-screen flex-col gap-3">
-      {list.map((item: ListItemProps) => (
-        <div className="flex gap-3" key={item.name}>
-          <p>{item.name}</p>
-          <p>{item.score}</p>
-          <button onClick={() => handleIncrement(item.name, item.score)}>+</button>
-          <button onClick={() => handleDecrement(item.name, item.score)}>-</button>
-        </div>
-      ))}
-     <div>
-      <p>Good Vote: {goodVote}</p>
-      <p>Bad Vote: {badVote}</p>
-      <p>Total Vote: {goodVote + badVote}</p>
-    </div>
+    <div className="flex justify-around h-screen">
+      <div className="flex flex-col overflow-auto text-center">
+        <h1>บัญชีรายชื่อ</h1>
+        <Table columns={columns} dataSource={list} />
+      </div>
+      <div>
+        <p>Good Vote: {goodVote}</p>
+        <p>Bad Vote: {badVote}</p>
+        <p>Total Vote: {goodVote + badVote}</p>
+      </div>
     </div>
   );
 };
