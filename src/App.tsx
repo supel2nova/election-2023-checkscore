@@ -96,13 +96,12 @@ const App = (): JSX.Element => {
       dataIndex: " ",
       key: "score",
       render: (text, item) => (
-        <div className="flex">
+        <div className="gap-2 flex flex-col md:flex-row md:justify-center">
           <span>{text}</span>
           <Button
             type="primary"
             style={{
               background: "#1677ff",
-              marginRight: "1rem",
               padding: "1rem 2rem",
               display: "flex",
               justifyContent: "center",
@@ -136,7 +135,7 @@ const App = (): JSX.Element => {
         <p>Bad Vote: {badVote}</p>
         <p>Total Vote: {goodVote + badVote}</p>
       </div>
-      <div className="flex flex-col text-center mb-4 h-screen w-fit ">
+      <div className="flex flex-col text-center mb-4 h-screen w-screen md:px-8 ">
         <h1 className="mt-4 top-0 text-base sticky bg-fuchsia-500 py-3">ส.ส. แบบแบ่งเขต</h1>
         <div className="overflow-y-auto">
           <Table
