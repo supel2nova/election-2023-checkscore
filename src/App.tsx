@@ -138,7 +138,7 @@ const App = (): JSX.Element => {
       </div>
       <div className="flex flex-col text-center mb-4 h-screen w-1/2 ">
         <h1 className="mt-4 top-0 text-base sticky bg-fuchsia-500 py-3">ส.ส. แบบแบ่งเขต</h1>
-        <div className="overflow-auto">
+        <div className="overflow-y-auto">
           <Table
             style={{ scrollbarWidth: "none" }}
             pagination={false}
