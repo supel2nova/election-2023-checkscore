@@ -85,6 +85,10 @@ const App = (): JSX.Element => {
       title: "vote",
       dataIndex: "score",
       key: "score",
+      sorter: {
+        compare: (a, b) => a.score - b.score,
+        multiple: 1,
+      },
     },
     {
       title: "",
@@ -100,10 +104,7 @@ const App = (): JSX.Element => {
           >
             +
           </Button>
-          <Button
-            danger
-            onClick={() => handleDecrement(item.name, item.score)}
-          >
+          <Button danger onClick={() => handleDecrement(item.name, item.score)}>
             -
           </Button>
         </div>
@@ -112,11 +113,19 @@ const App = (): JSX.Element => {
   ];
 
   return (
-    <div className="flex justify-around h-screen">
-      <div className="flex flex-col overflow-auto text-center">
-        <h1>บัญชีรายชื่อ</h1>
-        <Table columns={columns} dataSource={list} />
+    <div className="flex justify-around h-screen py-10">
+      <div className="flex flex-col overflow-auto text-center mb-4">
+        <h1 className="mb-4">บัญชีรายชื่อ</h1>
+        <div className="overflow-auto">
+          <Table
+            style={{ scrollbarWidth: "none" }}
+            pagination={false}
+            columns={columns}
+            dataSource={list}
+          />
+        </div>
       </div>
+
       <div>
         <p>Good Vote: {goodVote}</p>
         <p>Bad Vote: {badVote}</p>
