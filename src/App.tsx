@@ -4,6 +4,7 @@ import { ListItem } from "./assets/partylist";
 import Swal from "sweetalert2";
 import { Table, Button } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
 
 const App = (): JSX.Element => {
   const [list, setList] = useState<Array<ListItem>>(() => {
@@ -95,17 +96,33 @@ const App = (): JSX.Element => {
       dataIndex: " ",
       key: "score",
       render: (text, item) => (
-        <div>
+        <div className="flex">
           <span>{text}</span>
           <Button
             type="primary"
-            style={{ background: "#1677ff", marginRight: "1rem" }}
+            style={{
+              background: "#1677ff",
+              marginRight: "1rem",
+              padding: "1rem 2rem",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
             onClick={() => handleIncrement(item.name, item.score)}
           >
-            +
+            <PlusCircleOutlined />
           </Button>
-          <Button danger onClick={() => handleDecrement(item.name, item.score)}>
-            -
+          <Button
+            danger
+            style={{
+              padding: "1rem 2rem",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onClick={() => handleDecrement(item.name, item.score)}
+          >
+            <MinusCircleOutlined />
           </Button>
         </div>
       ),
@@ -113,9 +130,14 @@ const App = (): JSX.Element => {
   ];
 
   return (
-    <div className="flex justify-around h-screen py-10">
-      <div className="flex flex-col overflow-auto text-center mb-4">
-        <h1 className="mb-4">บัญชีรายชื่อ</h1>
+    <div className="h-screen w-screen pt-10 overflow-hidden">
+      <div className="flex gap-4 justify-center top-0 sticky">
+        <p>Good Vote: {goodVote}</p>
+        <p>Bad Vote: {badVote}</p>
+        <p>Total Vote: {goodVote + badVote}</p>
+      </div>
+      <div className="flex flex-col text-center mb-4 h-screen w-1/2 ">
+        <h1 className="mt-4 top-0 text-base sticky bg-fuchsia-500 py-3">ส.ส. แบบแบ่งเขต</h1>
         <div className="overflow-auto">
           <Table
             style={{ scrollbarWidth: "none" }}
@@ -124,12 +146,6 @@ const App = (): JSX.Element => {
             dataSource={list}
           />
         </div>
-      </div>
-
-      <div>
-        <p>Good Vote: {goodVote}</p>
-        <p>Bad Vote: {badVote}</p>
-        <p>Total Vote: {goodVote + badVote}</p>
       </div>
     </div>
   );
